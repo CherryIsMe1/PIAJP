@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskBoard - Django & JavaScript</title>
+    <link rel="stylesheet" href="{% static 'tasks/style.css' %}">
+</head>
+<body>
+    {% csrf_token %}
+    <main class="app-container">
+        <header class="app-header">
+            <h1>TaskBoard</h1>
+            <p class="subtitle">Laboratorium 3: JavaScript w aplikacji Django</p>
+        </header>
+
+        <!-- Komunikat walidacji / błędów API -->
+        <div id="message-box" class="message-box" style="display: none;" role="alert"></div>
+
+        <!-- Formularz dodawania nowego zadania -->
+        <form id="task-form" class="task-form" novalidate>
+            <input 
+                type="text" 
+                id="task-title" 
+                class="task-input" 
+                placeholder="Wpisz treść nowego zadania..." 
+                autocomplete="off"
+            >
+            <button type="submit" id="add-task-btn" class="btn btn-primary">Dodaj zadanie</button>
+        </form>
+
+        <!-- Panel sterowania filtrami oraz licznikami -->
+        <section class="controls-panel">
+            <div class="filters" id="filters-container">
+                <button type="button" class="filter-btn active" data-filter="all">Wszystkie</button>
+                <button type="button" class="filter-btn" data-filter="active">Aktywne</button>
+                <button type="button" class="filter-btn" data-filter="completed">Ukończone</button>
+            </div>
+            <div class="summary-counters">
+                <span class="counter-item">Wszystkich: <strong id="total-count">0</strong></span>
+                <span class="counter-item">Ukończonych: <strong id="completed-count">0</strong></span>
+            </div>
+        </section>
+
+        <!-- Dynamiczna lista zadań renderowana w DOM -->
+        <ul id="task-list" class="task-list" aria-label="Lista zadań"></ul>
+
+        <!-- Stan pusty, gdy brak zadań -->
+        <div id="empty-state" class="empty-state" style="display: none;">
+            Brak zadań do wyświetlenia.
+        </div>
+    </main>
+
+    <script src="{% static 'tasks/app.js' %}"></script>
+</body>
+</html>
