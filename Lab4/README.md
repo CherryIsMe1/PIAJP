@@ -6,7 +6,7 @@ Aplikacja stanowi katalog gier wideo, łączący backend Django z asynchroniczny
 
 ## Tematyka i model danych
 
-Model `Game` (aplikacja `katalog`) reprezentuje pozycję w katalogu gier.
+Model `Game` (aplikacja `Lab4`) reprezentuje pozycję w katalogu gier.
 Model spełnia wymóg min. 5 pól oraz min. 3 różnych typów pól (7 pól, 5 typów danych):
 
 - `title` (`CharField(max_length=150)`) - Tytuł gry

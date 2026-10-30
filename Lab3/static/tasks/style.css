@@ -1,15 +1,15 @@
 :root {
-    --primary-color: #f97316;       /* żywy pomarańczowy */
-    --primary-hover: #ea580c;       /* ciemniejszy pomarańcz */
+    --primary-color: #f97316;       
+    --primary-hover: #ea580c;       
     --success-color: #16a34a;
     --danger-color: #e11d48;
     --danger-hover: #be123c;
-    --bg-color: #fff7ed;            /* ciepłe, kremowo-pomarańczowe tło */
+    --bg-color: #fff7ed;            
     --card-bg: #ffffff;
-    --text-primary: #431407;        /* ciepły ciemnobrązowy zamiast czerni */
-    --text-secondary: #9a3412;      /* zgaszony pomarańcz / rdzawy */
-    --border-color: #fed7aa;        /* jasnopomarańczowe ramki */
-    --completed-bg: #fffbeb;        /* ciepłe kremowe tło dla ukończonych */
+    --text-primary: #431407;        
+    --text-secondary: #9a3412;      
+    --border-color: #fed7aa;        
+    --completed-bg: #fffbeb;        
 }
 
 * {
@@ -54,7 +54,6 @@ body {
     font-weight: 500;
 }
 
-/* Komunikaty walidacji / błędów */
 .message-box {
     padding: 0.85rem 1.15rem;
     border-radius: 10px;
@@ -80,7 +79,6 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Formularz */
 .task-form {
     display: flex;
     gap: 0.6rem;
@@ -130,7 +128,6 @@ body {
     box-shadow: 0 6px 14px rgba(234, 88, 12, 0.35);
 }
 
-/* Panel filtrów i liczników */
 .controls-panel {
     display: flex;
     justify-content: space-between;
@@ -185,7 +182,6 @@ body {
     font-size: 1.05rem;
 }
 
-/* Lista zadań */
 .task-list {
     list-style: none;
     display: flex;
@@ -247,7 +243,6 @@ body {
     transition: color 0.15s ease;
 }
 
-/* Wizualne odróżnienie ukończonych zadań */
 .task-item.completed {
     background-color: var(--completed-bg);
     border-color: #fde68a;
@@ -300,7 +295,6 @@ body {
     margin-top: 0.75rem;
 }
 
-/* Responsywność */
 @media (max-width: 520px) {
     .app-container {
         padding: 1.25rem;

@@ -1,14 +1,7 @@
-/**
- * TaskBoard - JavaScript Frontend dla Django REST API
- * Laboratorium 3: JavaScript w aplikacji Django
- */
-
 document.addEventListener('DOMContentLoaded', () => {
-    // Stan aplikacji w pamięci podręcznej frontendu
     let allTasks = [];
-    let currentFilter = 'all'; // 'all' | 'active' | 'completed'
+    let currentFilter = 'all';
 
-    // Elementy DOM
     const taskForm = document.getElementById('task-form');
     const taskTitleInput = document.getElementById('task-title');
     const taskList = document.getElementById('task-list');
@@ -20,9 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let messageTimeout = null;
 
-    /**
-     * Pobiera token CSRF z ciasteczek lub ukrytego pola formularza Django.
-     */
     function getCsrfToken() {
         const cookie = document.cookie
             .split('; ')
@@ -34,11 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return tokenInput ? tokenInput.value : '';
     }
 
-    /**
-     * Wyświetla komunikat walidacji lub błędu API dla użytkownika.
-     * @param {string} text - Treść komunikatu.
-     * @param {boolean} isError - Czy komunikat jest błędem (true) czy informacją (false).
-     */
     function showMessage(text, isError = true) {
         if (!text) {
             messageBox.style.display = 'none';
@@ -50,7 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
             clearTimeout(messageTimeout);
         }
 
-        // Ważne: wstawianie treści przez textContent (ochrona przed XSS)
         messageBox.textContent = text;
         messageBox.className = 'message-box ' + (isError ? 'error' : 'success');
         messageBox.style.display = 'block';
@@ -61,9 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 4000);
     }
 
-    /**
-     * Aktualizuje liczniki zadań na podstawie tablicy allTasks.
-     */
     function updateCounters() {
         const total = allTasks.length;
         const completed = allTasks.filter(task => task.completed).length;
@@ -72,11 +53,6 @@ document.addEventListener('DOMContentLoaded', () => {
         completedCountEl.textContent = completed;
     }
 
-    /**
-     * Filtruje zadania według wybranego filtra ('all', 'active', 'completed').
-     * @param {Array} tasks - Pełna lista zadań.
-     * @returns {Array} Przefiltrowana lista zadań.
-     */
     function getFilteredTasks(tasks) {
         if (currentFilter === 'active') {
             return tasks.filter(t => !t.completed);
@@ -87,12 +63,8 @@ document.addEventListener('DOMContentLoaded', () => {
         return tasks;
     }
 
-    /**
-     * Renderuje listę zadań w drzewie DOM.
-     * @param {Array} tasksToRender - Tablica zadań do wyświetlenia.
-     */
     function renderTasks(tasksToRender) {
-        taskList.textContent = ''; // czyszczenie poprzednich elementów listy
+        taskList.textContent = '';
 
         if (tasksToRender.length === 0) {
             emptyState.style.display = 'block';
@@ -105,23 +77,19 @@ document.addEventListener('DOMContentLoaded', () => {
             li.className = 'task-item' + (task.completed ? ' completed' : '');
             li.dataset.id = task.id;
 
-            // Kontener lewej strony (przycisk checkbox + tytuł)
             const contentWrapper = document.createElement('div');
             contentWrapper.className = 'task-content-wrapper';
 
-            // Przycisk zmiany statusu
             const toggleBtn = document.createElement('button');
             toggleBtn.type = 'button';
             toggleBtn.className = 'task-toggle-btn';
             toggleBtn.setAttribute('aria-label', task.completed ? 'Oznacz jako aktywne' : 'Oznacz jako ukończone');
             toggleBtn.textContent = task.completed ? '✓' : '';
 
-            // Obsługa kliknięcia zmiany statusu
             toggleBtn.addEventListener('click', () => {
                 toggleTask(task.id, task.completed);
             });
 
-            // Tytuł zadania - BEZWZGLĘDNIE textContent (wymóg bezpieczeństwa DOM)
             const titleSpan = document.createElement('span');
             titleSpan.className = 'task-title-text';
             titleSpan.textContent = task.title;
@@ -129,7 +97,6 @@ document.addEventListener('DOMContentLoaded', () => {
             contentWrapper.appendChild(toggleBtn);
             contentWrapper.appendChild(titleSpan);
 
-            // Kontener prawej strony (przycisk usuwania)
             const actionsWrapper = document.createElement('div');
             actionsWrapper.className = 'task-actions';
 
@@ -139,7 +106,6 @@ document.addEventListener('DOMContentLoaded', () => {
             deleteBtn.setAttribute('aria-label', 'Usuń zadanie');
             deleteBtn.textContent = 'Usuń';
 
-            // Obsługa usunięcia zadania
             deleteBtn.addEventListener('click', () => {
                 deleteTask(task.id);
             });
@@ -153,9 +119,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    /**
-     * Pobiera listę zadań z API backendu (wskazówka z slajdu 6).
-     */
     async function loadTasks() {
         try {
             const response = await fetch('/api/tasks/');
@@ -171,14 +134,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /**
-     * Dodaje nowe zadanie przez żądanie POST do API.
-     * @param {string} title - Treść zadania.
-     */
     async function addTask(title) {
         const trimmedTitle = title.trim();
 
-        // Walidacja po stronie klienta (Wymóg jakościowy)
         if (!trimmedTitle) {
             showMessage('Treść zadania nie może być pusta!', true);
             taskTitleInput.focus();
@@ -202,7 +160,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const newTask = await response.json();
 
-            // Aktualizacja stanu i DOM bez przeładowywania strony
             allTasks.unshift(newTask);
             renderTasks(getFilteredTasks(allTasks));
             updateCounters();
@@ -214,11 +171,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /**
-     * Zmienia status zadania (ukończone / aktywne) przez żądanie PATCH do API.
-     * @param {number} id - ID zadania.
-     * @param {boolean} currentStatus - Aktualny status ukończenia.
-     */
     async function toggleTask(id, currentStatus) {
         const newStatus = !currentStatus;
 
@@ -239,7 +191,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const updatedTask = await response.json();
 
-            // Aktualizacja obiektu w tablicy lokalnej
             const taskIndex = allTasks.findIndex(t => t.id === id);
             if (taskIndex !== -1) {
                 allTasks[taskIndex] = updatedTask;
@@ -252,10 +203,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /**
-     * Usuwa zadanie przez żądanie DELETE do API.
-     * @param {number} id - ID zadania.
-     */
     async function deleteTask(id) {
         try {
             const response = await fetch(`/api/tasks/${id}/`, {
@@ -270,7 +217,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error(errorData.error || 'Nie udało się usunąć zadania');
             }
 
-            // Usunięcie z tablicy lokalnej i odświeżenie DOM
             allTasks = allTasks.filter(t => t.id !== id);
             renderTasks(getFilteredTasks(allTasks));
             updateCounters();
@@ -281,13 +227,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Obsługa wysłania formularza
     taskForm.addEventListener('submit', (e) => {
         e.preventDefault();
         addTask(taskTitleInput.value);
     });
 
-    // Obsługa przełączania filtrów
     filterButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             filterButtons.forEach(b => b.classList.remove('active'));
@@ -297,6 +241,5 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Inicjalne pobranie listy zadań po załadowaniu strony
     loadTasks();
 });
