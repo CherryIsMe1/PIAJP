@@ -1,9 +1,8 @@
 from django.contrib import admin
-from django.urls import path
-from . import views
+from django.urls import include, path
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("hello_template/<str:name>/", views.hello_template, name="hello_template"),
-    path("time/", views.time, name="time"),
+    path("", include("hello.urls")),
+    path("hello/", include("hello.urls")),
 ]

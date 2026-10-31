@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gry</title>
+    <link rel="stylesheet" href="{% static 'games/css/style.css' %}">
+</head>
+<body>
+    <header class="navbar">
+        <div class="container navbar-content">
+            <span class="logo">Gry</span>
+            <nav class="nav-links">
+                <a href="/admin/" target="_blank">Admin</a>
+                <a href="/api/gry/" target="_blank">API</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container main-wrapper">
+        <section class="info-section">
+            <h1>Katalog gier</h1>
+            <p class="subtitle">Lab 4 - Django i fetch</p>
+        </section>
+
+        <section class="panel filters-panel">
+            <h2>Filtry</h2>
+            <form id="filter-form" onsubmit="return false;">
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="filter-available">Stan:</label>
+                        <select id="filter-available">
+                            <option value="">Wszystko</option>
+                            <option value="true">Dostępne</option>
+                            <option value="false">Niedostępne</option>
+                        </select>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="filter-genre">Gatunek:</label>
+                        <select id="filter-genre">
+                            <option value="">Wszystkie</option>
+                            {% for g in genres %}
+                                <option value="{{ g }}">{{ g }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="filter-search">Szukaj:</label>
+                        <input type="text" id="filter-search" placeholder="np. Wiedźmin...">
+                    </div>
+
+                    <div class="form-field submit-field">
+                        <button type="button" id="btn-fetch" class="btn btn-primary">Pobierz</button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="query-info">
+                URL: <code id="api-url-preview">/api/gry/</code>
+            </div>
+        </section>
+
+        <section class="alerts-area">
+            <div id="loading-spinner" class="alert alert-info hidden">
+                Ładowanie...
+            </div>
+
+            <div id="error-box" class="alert alert-danger hidden">
+                Błąd: <span id="error-details"></span>
+            </div>
+
+            <div id="empty-box" class="alert alert-warning hidden">
+                Brak wyników.
+            </div>
+
+            <div id="summary-bar" class="summary-text hidden">
+                <span id="summary-count"></span>
+            </div>
+        </section>
+
+        <section class="results-area">
+            <div id="games-container" class="games-list">
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>Laboratorium 4</p>
+        </div>
+    </footer>
+
+    <script src="{% static 'games/js/app.js' %}"></script>
+</body>
+</html>

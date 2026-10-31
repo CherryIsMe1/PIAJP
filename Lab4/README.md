@@ -4,9 +4,33 @@ Projekt zrealizowany w ramach przedmiotu Programowanie internetowe na Akademii i
 
 Aplikacja stanowi katalog gier wideo, łączący backend Django z asynchronicznym frontendem JavaScript wykorzystującym funkcję fetch() do pobierania danych w formacie JSON i manipulacji obiektami DOM bez konieczności przeładowywania strony.
 
+## Struktura projektu
+
+```text
+Lab4/
+├── manage.py
+├── Lab4/                      # konfiguracja projektu
+│   ├── settings.py
+│   ├── urls.py
+│   ├── asgi.py
+│   └── wsgi.py
+└── games/                     # aplikacja Django
+    ├── admin.py
+    ├── apps.py
+    ├── models.py
+    ├── urls.py
+    ├── views.py
+    ├── migrations/
+    ├── management/commands/seed_data.py
+    ├── templates/games/
+    └── static/games/
+```
+
+Katalog `Lab4/Lab4/` zawiera wyłącznie konfigurację projektu. Cały kod aplikacji znajduje się w osobnym pakiecie `games`, który jest wpisany do `INSTALLED_APPS` jako `'games'`.
+
 ## Tematyka i model danych
 
-Model `Game` (aplikacja `Lab4`) reprezentuje pozycję w katalogu gier.
+Model `Game` (aplikacja `games`) reprezentuje pozycję w katalogu gier.
 Model spełnia wymóg min. 5 pól oraz min. 3 różnych typów pól (7 pól, 5 typów danych):
 
 - `title` (`CharField(max_length=150)`) - Tytuł gry
@@ -23,8 +47,8 @@ Model jest zarejestrowany w panelu administracyjnym Django z filtrami i wyszukiw
 ## Endpoint API i odpowiedź JSON
 
 Aplikacja udostępnia endpointy:
-- `/api/gry/` (główny endpoint)
-- `/api/obiekty/` (alias)
+- `/api/gry/` lub `/games/api/gry/` (główny endpoint)
+- `/api/obiekty/` lub `/games/api/obiekty/` (alias)
 
 ### Parametry filtrowania (URL Query Params):
 - `?available=true` - tylko dostępne gry
@@ -62,18 +86,26 @@ Filtrowanie odbywa się w bazie danych za pomocą Django ORM.
 
 ## Uruchomienie lokalne
 
-1. Aktywacja środowiska wirtualnego:
+1. Instalacja zależności:
    ```bash
-   source .venv/bin/activate
+   pip install -r requirements.txt
    ```
-2. Uruchomienie serwera:
+2. Migracje bazy danych:
+   ```bash
+   python manage.py migrate
+   ```
+3. Dane startowe i konto administratora:
+   ```bash
+   python manage.py seed_data
+   ```
+4. Uruchomienie serwera:
    ```bash
    python manage.py runserver
    ```
-   Adres strony: `http://127.0.0.1:8000/`
+   Adres strony: `http://127.0.0.1:8000/games/` (działa też `http://127.0.0.1:8000/`)
 
 ## Panel administracyjny
 
 - Adres: `http://127.0.0.1:8000/admin/`
-- Login: `admin`
-- Hasło: `admin123`
+- Login: `Hubert`
+- Hasło: `32037`

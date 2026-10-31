@@ -1,11 +1,10 @@
 from django.contrib import admin
-from django.urls import path, include
-from . import task_views
+from django.urls import include, path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('frontend_demo.urls')),
-    path('taskboard/', task_views.taskboard, name='taskboard'),
-    path('api/tasks/', task_views.task_list_create, name='task_list_create'),
-    path('api/tasks/<int:task_id>/', task_views.task_detail, name='task_detail'),
+    path('frontend_demo/', include('frontend_demo.urls')),
+    path('', include('tasks.urls')),
+    path('tasks/', include('tasks.urls')),
 ]

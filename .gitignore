@@ -6,3 +6,8 @@ __pycache__/
 venv/
 *.sqlite3-journal
 
+
+# dane lokalne i pliki generowane
+db.sqlite3
+*.sqlite3
+staticfiles/
