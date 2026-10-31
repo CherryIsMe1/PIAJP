@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab2 - pliki statyczne</title>
+    <link rel="stylesheet" href="{% static 'static_demo/style.css' %}">
+</head>
+<body>
+    <main class="card">
+        <img src="{% static 'static_demo/logo.svg' %}" alt="Logo" class="logo">
+        <h1>Lab2</h1>
+        <p>Ta strona korzysta z jednego pliku CSS i jednego obrazka SVG.</p>
+        <p>Pliki statyczne leżą w:</p>
+        <pre>static_demo/static/static_demo/</pre>
+        <a href="/admin/">Przejdź do panelu administracyjnego</a>
+    </main>
+</body>
+</html>
