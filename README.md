@@ -6,6 +6,7 @@ Każdy projekt Django ma wydzieloną konfigurację projektu oraz osobne aplikacj
 - **Lab2** - Strona Django (pliki statyczne/media), aplikacja: `static_demo`
 - **Lab3** - Aplikacja Tasks / Zadania (Django), aplikacje: `frontend_demo`, `tasks`
 - **Lab4** - Aplikacja - baza danych do gier, aplikacja: `games`
+- **Lab5** - Rozbudowa modelu, migracje i operacje ORM, aplikacja: `games`
 
 Struktura każdego projektu:
 
